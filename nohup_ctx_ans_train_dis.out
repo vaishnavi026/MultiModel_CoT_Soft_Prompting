@@ -1,0 +1,104 @@
+args Namespace(bs=8, caption_file='data/instruct_captions.json', data_root='data', epoch=20, eval_acc=None, eval_bs=8, eval_le='models/mm-cot-base-rationale/predictions_ans_eval.json', evaluate_dir=None, final_eval=False, img_type='vit', input_len=448, lr=8e-05, model='declare-lab/flan-alpaca-base', n_ctx=64, options=['A', 'B', 'C', 'D', 'E'], output_dir='experiments', output_len=64, prompt_format='QCMG-A', seed=42, test_le='models/mm-cot-base-rationale/predictions_ans_test.json', test_split='test', train_split='train', use_caption=False, use_generate=True, user_msg='rationale', val_split='val')
+====Input Arguments====
+{
+  "data_root": "data",
+  "output_dir": "experiments",
+  "model": "declare-lab/flan-alpaca-base",
+  "options": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+  ],
+  "epoch": 20,
+  "lr": 8e-05,
+  "bs": 8,
+  "input_len": 448,
+  "n_ctx": 64,
+  "output_len": 64,
+  "eval_bs": 8,
+  "eval_acc": null,
+  "train_split": "train",
+  "val_split": "val",
+  "test_split": "test",
+  "use_generate": true,
+  "final_eval": false,
+  "user_msg": "rationale",
+  "img_type": "vit",
+  "eval_le": "models/mm-cot-base-rationale/predictions_ans_eval.json",
+  "test_le": "models/mm-cot-base-rationale/predictions_ans_test.json",
+  "evaluate_dir": null,
+  "caption_file": "data/instruct_captions.json",
+  "use_caption": false,
+  "prompt_format": "QCMG-A",
+  "seed": 42
+}
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /afs/cs.wisc.edu/u/h/c/hchaudhary/Desktop/mm-cot-main/main_distributed.py:48 │
+│ 5 in <module>                                                                │
+│                                                                              │
+│   482 │                                                                      │
+│   483 │   if args.img_type is not None:                                      │
+│   484 │   │   problems, qids, name_maps, image_features = load_data_img(     │
+│ ❱ 485 │   │   │   args                                                       │
+│   486 │   │   )  # probelms, test question ids, shot example ids             │
+│   487 │   │   dataframe = {                                                  │
+│   488 │   │   │   "problems": problems,                                      │
+│                                                                              │
+│ /afs/cs.wisc.edu/u/h/c/hchaudhary/Desktop/mm-cot-main/utils_data.py:60 in    │
+│ load_data_img                                                                │
+│                                                                              │
+│    57 │   elif args.img_type == "detr":                                      │
+│    58 │   │   image_features = np.load("vision_features/detr.npy")           │
+│    59 │   elif args.img_type == "vit":                                       │
+│ ❱  60 │   │   image_features = torch.load("vision_features/vit.pth")         │
+│    61 │   else:                                                              │
+│    62 │   │   image_features = np.load("vision_features/detr.npy")           │
+│    63 │   print("img_features size: ", image_features.shape)                 │
+│                                                                              │
+│ /u/h/c/hchaudhary/miniconda3/envs/project_nlp/lib/python3.7/site-packages/to │
+│ rch/serialization.py:607 in load                                             │
+│                                                                              │
+│   604 │   │   │   │   │   │   │   │     " silence this warning)", UserWarnin │
+│   605 │   │   │   │   │   opened_file.seek(orig_position)                    │
+│   606 │   │   │   │   │   return torch.jit.load(opened_file)                 │
+│ ❱ 607 │   │   │   │   return _load(opened_zipfile, map_location, pickle_modu │
+│   608 │   │   return _legacy_load(opened_file, map_location, pickle_module,  │
+│   609                                                                        │
+│   610                                                                        │
+│                                                                              │
+│ /u/h/c/hchaudhary/miniconda3/envs/project_nlp/lib/python3.7/site-packages/to │
+│ rch/serialization.py:882 in _load                                            │
+│                                                                              │
+│   879 │                                                                      │
+│   880 │   unpickler = UnpicklerWrapper(data_file, **pickle_load_args)        │
+│   881 │   unpickler.persistent_load = persistent_load                        │
+│ ❱ 882 │   result = unpickler.load()                                          │
+│   883 │                                                                      │
+│   884 │   torch._utils._validate_loaded_sparse_tensors()                     │
+│   885                                                                        │
+│                                                                              │
+│ /u/h/c/hchaudhary/miniconda3/envs/project_nlp/lib/python3.7/site-packages/to │
+│ rch/serialization.py:857 in persistent_load                                  │
+│                                                                              │
+│   854 │   │   │   f"Unknown typename for persistent_load, expected 'storage' │
+│   855 │   │   data_type, key, location, size = data                          │
+│   856 │   │   if key not in loaded_storages:                                 │
+│ ❱ 857 │   │   │   load_tensor(data_type, size, key, _maybe_decode_ascii(loca │
+│   858 │   │   storage = loaded_storages[key]                                 │
+│   859 │   │   return storage                                                 │
+│   860                                                                        │
+│                                                                              │
+│ /u/h/c/hchaudhary/miniconda3/envs/project_nlp/lib/python3.7/site-packages/to │
+│ rch/serialization.py:845 in load_tensor                                      │
+│                                                                              │
+│   842 │   │   name = f'data/{key}'                                           │
+│   843 │   │   dtype = data_type(0).dtype                                     │
+│   844 │   │                                                                  │
+│ ❱ 845 │   │   storage = zip_file.get_storage_from_record(name, size, dtype). │
+│   846 │   │   loaded_storages[key] = restore_location(storage, location)     │
+│   847 │                                                                      │
+│   848 │   def persistent_load(saved_id):                                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+KeyboardInterrupt
